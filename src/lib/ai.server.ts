@@ -7,9 +7,9 @@ export type GeneratedImage = { url: string; text: string };
 export async function generateImageFromPrompt(input: {
   model: string;
   prompt: string;
-  negativePrompt?: string;
-  aspectRatio?: string;
-  quality?: string;
+  negativePrompt?: string | undefined;
+  aspectRatio?: string | undefined;
+  quality?: string | undefined;
 }): Promise<GeneratedImage> {
   const parts = [input.prompt];
   if (input.aspectRatio && input.aspectRatio !== "1:1")
