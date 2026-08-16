@@ -1,5 +1,4 @@
-import { generateText, Output } from "ai";
-import { z } from "zod";
+import { generateText } from "ai";
 import { createLovableAiGatewayProvider, getApiKey, GATEWAY_URL } from "./ai-gateway.server";
 
 export type GeneratedImage = { url: string; text: string };
@@ -51,27 +50,53 @@ export async function generateImageFromPrompt(input: {
   return { url, text: message?.content ?? "" };
 }
 
-const structuredSchema = z.object({
-  subject: z.string(),
-  style: z.string(),
-  lighting: z.string(),
-  camera: z.string(),
-  background: z.string(),
-  colors: z.string(),
-  composition: z.string(),
-  extraDetails: z.string(),
-});
+export type StructuredPrompt = {
+  subject: string;
+  style: string;
+  lighting: string;
+  camera: string;
+  background: string;
+  colors: string;
+  composition: string;
+  extraDetails: string;
+};
 
-export type StructuredPrompt = z.infer<typeof structuredSchema>;
+const FIELDS: (keyof StructuredPrompt)[] = [
+  "subject",
+  "style",
+  "lighting",
+  "camera",
+  "background",
+  "colors",
+  "composition",
+  "extraDetails",
+];
 
 export async function structurePrompt(idea: string): Promise<StructuredPrompt> {
   const gateway = createLovableAiGatewayProvider(getApiKey());
-  const { output } = await generateText({
+  const result = await generateText({
     model: gateway("google/gemini-3.6-flash"),
-    output: Output.object({ schema: structuredSchema }),
     system:
-      "You expand a short image idea into a professional, structured image prompt. Each field is one vivid, concrete sentence or phrase. Never leave a field empty. Keep every field under 200 characters.",
+      "You expand a short image idea into a professional, structured image prompt. Reply with ONLY a JSON object (no markdown fences) with exactly these string keys: subject, style, lighting, camera, background, colors, composition, extraDetails. Each value is one vivid, concrete phrase under 200 characters. Never leave a value empty.",
     prompt: `Idea: ${idea}`,
   });
-  return output as StructuredPrompt;
+
+  const raw = result.text.trim().replace(/^```(?:json)?/i, "").replace(/```$/, "").trim();
+  const start = raw.indexOf("{");
+  const end = raw.lastIndexOf("}");
+  let parsed: Record<string, unknown> = {};
+  if (start !== -1 && end > start) {
+    try {
+      parsed = JSON.parse(raw.slice(start, end + 1)) as Record<string, unknown>;
+    } catch {
+      parsed = {};
+    }
+  }
+
+  const output = {} as StructuredPrompt;
+  for (const field of FIELDS) {
+    const value = parsed[field];
+    output[field] = typeof value === "string" && value.trim() ? value.trim().slice(0, 300) : "—";
+  }
+  return output;
 }

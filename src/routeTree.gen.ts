@@ -10,11 +10,41 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ImageStudioRouteImport } from './routes/image-studio'
+import { Route as ProjectsRouteImport } from './routes/projects'
+import { Route as PromptBuilderRouteImport } from './routes/prompt-builder'
+import { Route as PromptLibraryRouteImport } from './routes/prompt-library'
+import { Route as SettingsRouteImport } from './routes/settings'
 import { Route as ApiChatRouteImport } from './routes/api/chat'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ImageStudioRoute = ImageStudioRouteImport.update({
+  id: '/image-studio',
+  path: '/image-studio',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProjectsRoute = ProjectsRouteImport.update({
+  id: '/projects',
+  path: '/projects',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PromptBuilderRoute = PromptBuilderRouteImport.update({
+  id: '/prompt-builder',
+  path: '/prompt-builder',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PromptLibraryRoute = PromptLibraryRouteImport.update({
+  id: '/prompt-library',
+  path: '/prompt-library',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SettingsRoute = SettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApiChatRoute = ApiChatRouteImport.update({
@@ -25,27 +55,69 @@ const ApiChatRoute = ApiChatRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/image-studio': typeof ImageStudioRoute
+  '/projects': typeof ProjectsRoute
+  '/prompt-builder': typeof PromptBuilderRoute
+  '/prompt-library': typeof PromptLibraryRoute
+  '/settings': typeof SettingsRoute
   '/api/chat': typeof ApiChatRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/image-studio': typeof ImageStudioRoute
+  '/projects': typeof ProjectsRoute
+  '/prompt-builder': typeof PromptBuilderRoute
+  '/prompt-library': typeof PromptLibraryRoute
+  '/settings': typeof SettingsRoute
   '/api/chat': typeof ApiChatRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/image-studio': typeof ImageStudioRoute
+  '/projects': typeof ProjectsRoute
+  '/prompt-builder': typeof PromptBuilderRoute
+  '/prompt-library': typeof PromptLibraryRoute
+  '/settings': typeof SettingsRoute
   '/api/chat': typeof ApiChatRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/api/chat'
+  fullPaths:
+    | '/'
+    | '/image-studio'
+    | '/projects'
+    | '/prompt-builder'
+    | '/prompt-library'
+    | '/settings'
+    | '/api/chat'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/api/chat'
-  id: '__root__' | '/' | '/api/chat'
+  to:
+    | '/'
+    | '/image-studio'
+    | '/projects'
+    | '/prompt-builder'
+    | '/prompt-library'
+    | '/settings'
+    | '/api/chat'
+  id:
+    | '__root__'
+    | '/'
+    | '/image-studio'
+    | '/projects'
+    | '/prompt-builder'
+    | '/prompt-library'
+    | '/settings'
+    | '/api/chat'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ImageStudioRoute: typeof ImageStudioRoute
+  ProjectsRoute: typeof ProjectsRoute
+  PromptBuilderRoute: typeof PromptBuilderRoute
+  PromptLibraryRoute: typeof PromptLibraryRoute
+  SettingsRoute: typeof SettingsRoute
   ApiChatRoute: typeof ApiChatRoute
 }
 
@@ -56,6 +128,41 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/image-studio': {
+      id: '/image-studio'
+      path: '/image-studio'
+      fullPath: '/image-studio'
+      preLoaderRoute: typeof ImageStudioRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/projects': {
+      id: '/projects'
+      path: '/projects'
+      fullPath: '/projects'
+      preLoaderRoute: typeof ProjectsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/prompt-builder': {
+      id: '/prompt-builder'
+      path: '/prompt-builder'
+      fullPath: '/prompt-builder'
+      preLoaderRoute: typeof PromptBuilderRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/prompt-library': {
+      id: '/prompt-library'
+      path: '/prompt-library'
+      fullPath: '/prompt-library'
+      preLoaderRoute: typeof PromptLibraryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/settings': {
+      id: '/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof SettingsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/chat': {
@@ -70,6 +177,11 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ImageStudioRoute: ImageStudioRoute,
+  ProjectsRoute: ProjectsRoute,
+  PromptBuilderRoute: PromptBuilderRoute,
+  PromptLibraryRoute: PromptLibraryRoute,
+  SettingsRoute: SettingsRoute,
   ApiChatRoute: ApiChatRoute,
 }
 export const routeTree = rootRouteImport
