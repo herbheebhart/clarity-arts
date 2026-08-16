@@ -14,6 +14,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { generateImage } from "@/lib/ai.functions";
+import { IMAGE_MODELS } from "@/lib/models";
 import {
   STORAGE_KEYS,
   saveToProjects,
@@ -41,13 +42,6 @@ export const Route = createFileRoute("/image-studio")({
   }),
   component: ImageStudio,
 });
-
-export const IMAGE_MODELS = [
-  { id: "google/gemini-3.1-flash-image", label: "Fast — Gemini 3.1 Flash Image" },
-  { id: "google/gemini-3-pro-image", label: "Best quality — Gemini 3 Pro Image" },
-  { id: "google/gemini-3.1-flash-lite-image", label: "Cheapest — Gemini 3.1 Flash Lite" },
-  { id: "google/gemini-2.5-flash-image", label: "Classic — Gemini 2.5 Flash Image" },
-];
 
 const RATIOS = ["1:1", "16:9", "9:16", "4:3", "3:2", "2:3"];
 const QUALITIES = ["Standard", "High detail", "Ultra realistic"];

@@ -15,7 +15,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useSettings, uid } from "@/lib/store";
-import { IMAGE_MODELS } from "./image-studio";
+import { IMAGE_MODELS, CHAT_MODELS } from "@/lib/models";
 
 export const Route = createFileRoute("/settings")({
   head: () => ({
@@ -43,12 +43,6 @@ const LANGUAGES = [
   { id: "yo", label: "Yorùbá" },
   { id: "ha", label: "Hausa" },
   { id: "ar", label: "العربية" },
-];
-
-const CHAT_MODELS = [
-  { id: "google/gemini-3.6-flash", label: "Balanced — Gemini 3.6 Flash" },
-  { id: "google/gemini-3.1-flash-lite", label: "Fastest — Gemini 3.1 Flash Lite" },
-  { id: "google/gemini-3.1-pro-preview", label: "Deep thinking — Gemini 3.1 Pro" },
 ];
 
 function SettingsPage() {
